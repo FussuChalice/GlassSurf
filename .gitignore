@@ -1,0 +1,5 @@
+.vscode
+/app/out
+/app/lib/opencv2
+/app/.vs
+
