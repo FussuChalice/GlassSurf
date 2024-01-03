@@ -9,7 +9,7 @@ if (POLICY CMP0141)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
-project ("CHROME_VIBRANCY")
+project ("BROWSER_VIBRANCY")
 
 # Set the path to the OpenCV directory (change this to the actual path on your system)
 set(OpenCV_DIR "lib/opencv2") # Change this to the correct path
@@ -26,13 +26,13 @@ set(HEADER_FILES
 	"src/windows/pch.h" )
 
 # Add source to this project's executable.
-add_executable (CHROME_VIBRANCY ${CXX_FILES} ${HEADER_FILES})
+add_executable (BROWSER_VIBRANCY ${CXX_FILES} ${HEADER_FILES})
 
-set_property(TARGET CHROME_VIBRANCY PROPERTY CXX_STANDARD 17)
-set_property(TARGET CHROME_VIBRANCY PROPERTY CXX_STANDARD_REQUIRED ON)
+set_property(TARGET BROWSER_VIBRANCY PROPERTY CXX_STANDARD 17)
+set_property(TARGET BROWSER_VIBRANCY PROPERTY CXX_STANDARD_REQUIRED ON)
 
 # Link OpenCV libraries
-target_link_libraries(CHROME_VIBRANCY 
+target_link_libraries(BROWSER_VIBRANCY 
     "${OpenCV_DIR}/lib/opencv_world480.lib"
 )
 
