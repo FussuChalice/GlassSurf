@@ -33,17 +33,11 @@ git fetch upstream
 
 ### 4. Install Libs for App (C++)
 
-#### OpenCV2
+![lib-map](/app/lib/lib-map.png)
 
-Download [OpenCV 4.8.0](https://opencv.org/releases).
-
-In folder `/app/lib/` make directory `opencv2` move there all files from `include`, and file `/lib/opencv_world.lib` move to `/app/lib/`.
-
-<!-- #### cpp-netlib and boost libraries
-
-Download [boost](https://www.boost.org/)
-
-In folder `/app/lib/` make directory `boost` and move there all files from `boost_v_1/boost/` and copy from `cpp-netlib/boost`. -->
+1. [OpenCV](https://opencv.org/releases/)
+2. [Boost](https://www.boost.org/)
+3. [nlohman json](https://github.com/nlohmann/json)
 
 ### 5. Build code
 
