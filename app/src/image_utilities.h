@@ -1,9 +1,13 @@
-// windows/image_utilities.h
+// image_utilities.h
 
-#ifndef IMAGE_UTILITIES_H
-#define IMAGE_UTILITIES_H
+#ifndef IMAGE_UTILITIES_H_
+#define IMAGE_UTILITIES_H_
 
 #include "pch.h"
+
+#include <opencv2/opencv.hpp>
+#include <opencv2/core.hpp>
+#include <opencv2/imgproc.hpp>
 
 /**
  * @brief Retrieves the path to the desktop wallpaper.
@@ -20,7 +24,7 @@ std::wstring GetDesktopWallpaperPath();
  * @return A vector of cv::Vec3b containing pixel values.
  *         An empty vector is returned if there is an error reading the image.
  */
-std::vector<cv::Vec3b> readImage(const std::string& filePath);
+std::vector<cv::Vec3b> ReadImage(const std::string& filePath);
 
 /**
  * @brief Cuts a region from an image defined by specified parameters.
@@ -33,7 +37,7 @@ std::vector<cv::Vec3b> readImage(const std::string& filePath);
  * @param start_pos_y The y-coordinate of the starting position for the cut.
  * @return A vector of cv::Vec3b containing pixel values of the cut region.
  */
-std::vector<cv::Vec3b> cutImage(
+std::vector<cv::Vec3b> CutImage(
 	const std::vector<cv::Vec3b>& image, 
 	int image_width, 
 	int cut_width, 
@@ -50,7 +54,7 @@ std::vector<cv::Vec3b> cutImage(
  * @param radius The standard deviation of the Gaussian kernel for blurring.
  * @return A vector of cv::Vec3b containing pixel values of the blurred image.
  */
-std::vector<cv::Vec3b> gaussianBlur(
+std::vector<cv::Vec3b> GaussianBlur(
 	const std::vector<cv::Vec3b>& image,
 	int width,
 	int height,
@@ -64,11 +68,11 @@ std::vector<cv::Vec3b> gaussianBlur(
  * @param height The height of the input image.
  * @param filename The name of the PNG file to save.
  */
-void saveAsPNG(
+void SaveAsPNG(
 	const std::vector<cv::Vec3b>& image,
 	int width,
 	int height,
 	const std::string& filename);
 
 
-#endif // !IMAGE_UTILITIES_H
+#endif // !IMAGE_UTILITIES_H_

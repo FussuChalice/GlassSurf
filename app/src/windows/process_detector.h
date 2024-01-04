@@ -1,9 +1,14 @@
 // windows/process_detector.h
 
-#ifndef PROCESS_DETECTOR_H
-#define PROCESS_DETECTOR_H
+#ifndef PROCESS_DETECTOR_H_
+#define PROCESS_DETECTOR_H_
 
-#include "pch.h"
+#include "../pch.h"
+
+#include <windows.h>
+#include <tlhelp32.h>
+#include <tchar.h>
+
 
 /**
  * @brief Lists all running processes and prints their process ID and executable filename.
@@ -70,4 +75,4 @@ struct WINDOW
 WINDOW FindWindowInfoByHWND(HWND hwnd);
 
 
-#endif // !PROCESS_DETECTOR_H
+#endif // !PROCESS_DETECTOR_H_
