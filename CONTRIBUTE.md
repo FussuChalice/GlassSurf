@@ -33,7 +33,7 @@ git fetch upstream
 
 ### 4. Install Libs for App (C++)
 
-![lib-map](/app/lib/lib-map.png)
+![lib-map](/app/lib-map.png)
 
 1. [OpenCV](https://opencv.org/releases/)
 2. [Boost](https://www.boost.org/)
