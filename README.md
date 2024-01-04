@@ -17,5 +17,4 @@ All images, including company logos and wallpapers, are used in a non-commercial
 
 ## Contribute
 
-Now Contribute Guidelines is empty.
-( If you want to help us, read [CONTRIBUTE.md](CONTRIBUTE.md). )
+If you want to help us, read [CONTRIBUTE.md](CONTRIBUTE.md).

@@ -15,11 +15,11 @@ include_directories("lib/")
 
 set(CXX_FILES  
 	"src/windows/process_detector.cpp" 
-	"src/main.cpp" "src/image_utilities.cpp" "src/restapi_listener.cpp")
+	"src/main.cpp" "src/image_utilities.cpp")
 
 set(HEADER_FILES  
 	"src/windows/process_detector.h" "src/image_utilities.h" 
-	"src/pch.h"  "src/restapi_listener.h")
+	"src/pch.h")
 
 # Add source to this project's executable.
 add_executable (GlassSurf ${CXX_FILES} ${HEADER_FILES})
