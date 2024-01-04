@@ -93,6 +93,20 @@ For build use [CMake](https://cmake.org/).
 - For C++ code, adhere to the [Chromium C++ Code Style](https://chromium.googlesource.com/chromium/src/+/HEAD/styleguide/c++/c++.md).
 - If you are writing extensions for browsers, use the [Chromium Web Code Style](https://chromium.googlesource.com/chromium/src/+/HEAD/styleguide/web/web.md).
 
+## File headers
+
+All files in GlassSurf start with a common license header. That header should look like this:
+
+```CXX
+// $LOCAL_PATH_TO_FILE
+// -----------------------------------------------------
+// Copyright $YEAR The GlassSurf Authors
+// Use of this source code is governed by a MIT-style license that can be
+// found in the LICENSE file.
+```
+
+For instance `$LOCAL_PATH_TO_FILE` is `windows/process_detector.cpp`
+
 ## Commit Message Convention
 
 We follow a specific commit message convention to maintain a clear and organized version history. Please use the following tags at the beginning of your commit messages:

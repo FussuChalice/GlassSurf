@@ -1,4 +1,8 @@
 // image_utilities.h
+// -----------------------------------------------------
+// Copyright 2024 The GlassSurf Authors
+// Use of this source code is governed by a MIT-style license that can be
+// found in the LICENSE file.
 
 #ifndef IMAGE_UTILITIES_H_
 #define IMAGE_UTILITIES_H_
