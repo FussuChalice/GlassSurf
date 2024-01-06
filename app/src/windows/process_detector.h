@@ -14,6 +14,7 @@
 #include <iostream>
 #include <string>
 
+#include "../help_structures.h"
 
 /**
  * @brief Lists all running processes and prints their process ID and executable filename.
@@ -22,6 +23,27 @@
  * processes and iterates through the list, printing information about each process.
  */
 void ListProcesses();
+
+/**
+* @struct WINDOW
+* @brief Represents information about a window, including its process ID, dimensions, and position.
+*
+* The WINDOW structure is designed to store details about a window, making it convenient
+* to gather and manage information related to window properties.
+*
+* Members:
+* - processId: A DWORD representing the process ID associated with the window.
+* - width: An integer indicating the width of the window.
+* - height: An integer indicating the height of the window.
+* - position_x: An integer representing the x-coordinate of the window's position.
+* - position_y: An integer representing the y-coordinate of the window's position.
+*/
+struct WINDOW
+{
+	DWORD processId;
+	int width, height;
+	int position_x, position_y;
+};
 
 /**
  * @brief Finds the process ID of a given executable filename.
@@ -48,31 +70,10 @@ DWORD FindProcessIdByExecutable(const std::string& executableName);
 HWND FindWindowByProcessId(DWORD processId);
 
 /**
- * @struct WINDOW
- * @brief Represents information about a window, including its process ID, dimensions, and position.
- *
- * The WINDOW structure is designed to store details about a window, making it convenient
- * to gather and manage information related to window properties.
- *
- * Members:
- * - processId: A DWORD representing the process ID associated with the window.
- * - width: An integer indicating the width of the window.
- * - height: An integer indicating the height of the window.
- * - position_x: An integer representing the x-coordinate of the window's position.
- * - position_y: An integer representing the y-coordinate of the window's position.
- */
-struct WINDOW
-{
-	DWORD processId;
-	int width, height;
-	int position_x, position_y;
-};
-
-/**
  * @brief Retrieves information about a window using its handle.
  *
  * @param hwnd The handle of the window.
- * @return A WINDOW structure containing information about the window.
+ * @return WINDOW structure containing information about the window.
  *
  * This function extracts information about the specified window, including its process ID,
  * width, height, and position, and returns this information in a WINDOW structure.
