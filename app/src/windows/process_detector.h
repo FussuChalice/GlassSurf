@@ -7,11 +7,12 @@
 #ifndef PROCESS_DETECTOR_H_
 #define PROCESS_DETECTOR_H_
 
-#include "../pch.h"
-
 #include <windows.h>
 #include <tlhelp32.h>
 #include <tchar.h>
+
+#include <iostream>
+#include <string>
 
 
 /**

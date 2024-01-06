@@ -83,3 +83,30 @@ void SaveAsPNG(const std::vector<cv::Vec3b>& image, int width, int height, const
 
     cv::imwrite(filename, output_image);
 }
+
+cv::Vec3b* SaveAsPNGToDRAM(const std::vector<cv::Vec3b>& image, int width, int height) {
+    // Allocate memory for the image in DRAM
+    cv::Vec3b* dram_image = new cv::Vec3b[width * height];
+    
+    // Copy the image data to the allocated memory
+    std::memcpy(dram_image, image.data(), image.size() * sizeof(cv::Vec3b));
+    
+    return dram_image;
+}
+
+cv::Vec3b* SaveAsPNGToDRAMWithBuffer(const std::vector<cv::Vec3b>& image, int width, int height, int buffer) {
+    // Allocate memory for the image in DRAM with buffer space
+    cv::Vec3b* dram_image = new cv::Vec3b[(width + buffer) * height];
+    
+    // Copy the image data to the allocated memory
+    std::memcpy(dram_image, image.data(), image.size() * sizeof(cv::Vec3b));
+
+    // You can perform additional operations on dram_image if needed
+    
+    return dram_image;
+}
+
+void FreeDRAMImage(cv::Vec3b* dram_image) {
+    delete[] dram_image;
+}
+

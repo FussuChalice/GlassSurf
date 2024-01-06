@@ -7,9 +7,11 @@
 #ifndef IMAGE_UTILITIES_H_
 #define IMAGE_UTILITIES_H_
 
-#include "pch.h"
-
 #include <Windows.h>
+#include <vector>
+
+#include <iostream>
+#include <cstring>
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/core.hpp>
@@ -80,5 +82,53 @@ void SaveAsPNG(
 	int height,
 	const std::string& filename);
 
+/**
+ * @brief Allocates memory in DRAM and copies the image data.
+ *
+ * This function allocates memory in the Dynamic Random-Access Memory (DRAM) to store
+ * an image and copies the pixel data from the provided vector to the allocated memory.
+ * The caller is responsible for freeing the allocated memory using FreeDRAMImage
+ * when it is no longer needed to avoid memory leaks.
+ *
+ * @param image The vector containing the pixel data of the image.
+ * @param width The width of the image.
+ * @param height The height of the image.
+ * @return A pointer to the allocated memory containing the image data.
+ */
+cv::Vec3b* SaveAsPNGToDRAM(
+	const std::vector<cv::Vec3b>& image, 
+	int width, 
+	int height);
+
+/**
+ * @brief Allocates memory in DRAM with a specified buffer size and copies the image data.
+ *
+ * This function allocates memory in the Dynamic Random-Access Memory (DRAM) to store
+ * an image with additional buffer space and copies the pixel data from the provided vector
+ * to the allocated memory. The caller is responsible for freeing the allocated memory using
+ * FreeDRAMImage when it is no longer needed to avoid memory leaks.
+ *
+ * @param image The vector containing the pixel data of the image.
+ * @param width The width of the image.
+ * @param height The height of the image.
+ * @param buffer The additional buffer size to allocate beyond the required space.
+ * @return A pointer to the allocated memory containing the image data with the buffer.
+ */
+cv::Vec3b* SaveAsPNGToDRAMWithBuffer(
+	const std::vector<cv::Vec3b>& image, 
+	int width, 
+	int height, 
+	int buffer);
+
+/**
+ * @brief Frees the memory allocated in DRAM for the image data.
+ *
+ * This function frees the memory previously allocated in the Dynamic Random-Access Memory (DRAM)
+ * for storing image data. It is important to call this function when the allocated memory is
+ * no longer needed to avoid memory leaks.
+ *
+ * @param dram_image A pointer to the memory allocated for image data in DRAM.
+ */
+void FreeDRAMImage(cv::Vec3b* dram_image);
 
 #endif // !IMAGE_UTILITIES_H_
