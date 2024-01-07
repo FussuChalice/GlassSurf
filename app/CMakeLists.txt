@@ -14,14 +14,13 @@ endif()
 
 project ("GlassSurf")
 
-include_directories("lib/")
+# include_directories("lib/")
 
 set(CXX_FILES  
-	"src/windows/process_detector.cpp" 
-	"src/main.cpp" "src/image_utilities.cpp"  "src/preferences/listener.cpp"  )
+	"src/main.cpp" "src/win/process_detector.cpp" "src/win/window_utilities.cpp" )
 
 set(HEADER_FILES  
-	"src/windows/process_detector.h" "src/image_utilities.h"   "src/preferences/listener.h" )
+	"src/win/process_detector.h" "src/win/window_utilities.h" )
 
 # Add source to this project's executable.
 add_executable (GlassSurf ${CXX_FILES} ${HEADER_FILES})
@@ -30,8 +29,8 @@ set_property(TARGET GlassSurf PROPERTY CXX_STANDARD 17)
 set_property(TARGET GlassSurf PROPERTY CXX_STANDARD_REQUIRED ON)
 
 # Link OpenCV libraries
-target_link_libraries(GlassSurf
-    "lib/opencv_world480.lib"
-)
+#target_link_libraries(GlassSurf
+#    "lib/opencv_world480.lib"
+#)
 
 # TODO: Add tests and install targets if needed.

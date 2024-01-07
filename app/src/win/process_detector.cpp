@@ -56,40 +56,26 @@ DWORD FindProcessIdByExecutable(const std::string& executableName) {
     return 0;
 }
 
-HWND FindWindowByProcessId(DWORD processId) {
-    HWND targetWindow = NULL;
+std::vector<DWORD> FindProcessIdsByExecutable(const std::string& executableName) {
+    std::vector<DWORD> processIds;
 
-    EnumWindows([](HWND hwnd, LPARAM lParam) -> BOOL {
-        DWORD windowProcessId;
-        GetWindowThreadProcessId(hwnd, &windowProcessId);
-
-        if (windowProcessId == static_cast<DWORD>(lParam)) {
-            *reinterpret_cast<HWND*>(lParam) = hwnd;
-            return FALSE;
-        }
-
-        return TRUE;
-        }, reinterpret_cast<LPARAM>(&targetWindow));
-
-    return targetWindow;
-}
-
-WINDOW FindWindowInfoByHWND(HWND hwnd) {
-    WINDOW windowInfo = { 0 };
-
-    DWORD windowProcessId;
-    GetWindowThreadProcessId(hwnd, &windowProcessId);
-
-    if (windowProcessId != 0) {
-        RECT windowRect;
-        GetWindowRect(hwnd, &windowRect);
-
-        windowInfo.processId = windowProcessId;
-        windowInfo.width = windowRect.right - windowRect.left;
-        windowInfo.height = windowRect.bottom - windowRect.top;
-        windowInfo.position_x = windowRect.left;
-        windowInfo.position_y = windowRect.top;
+    HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    if (snapshot == INVALID_HANDLE_VALUE) {
+        std::cerr << "Error: CreateToolhelp32Snapshot failed." << std::endl;
+        return processIds;
     }
 
-    return windowInfo;
+    PROCESSENTRY32 processEntry;
+    processEntry.dwSize = sizeof(PROCESSENTRY32);
+
+    if (Process32First(snapshot, &processEntry)) {
+        do {
+            if (_stricmp(processEntry.szExeFile, executableName.c_str()) == 0) {
+                processIds.push_back(processEntry.th32ProcessID);
+            }
+        } while (Process32Next(snapshot, &processEntry));
+    }
+
+    CloseHandle(snapshot);
+    return processIds;
 }
