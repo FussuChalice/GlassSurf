@@ -6,7 +6,7 @@
 
 #include "process_detector.h"
 
-void ListProcesses() {
+void glass_surf::win::ListProcesses() {
     HANDLE hProcessSnap;
     PROCESSENTRY32 pe32;
 
@@ -33,7 +33,7 @@ void ListProcesses() {
     CloseHandle(hProcessSnap);
 }
 
-DWORD FindProcessIdByExecutable(const std::string& executableName) {
+DWORD glass_surf::win::FindProcessIdByExecutable(const std::string& executableName) {
     HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 
     if (snapshot == INVALID_HANDLE_VALUE) {
@@ -56,7 +56,7 @@ DWORD FindProcessIdByExecutable(const std::string& executableName) {
     return 0;
 }
 
-std::vector<DWORD> FindProcessIdsByExecutable(const std::string& executableName) {
+std::vector<DWORD> glass_surf::win::FindProcessIdsByExecutable(const std::string& executableName) {
     std::vector<DWORD> processIds;
 
     HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -79,3 +79,4 @@ std::vector<DWORD> FindProcessIdsByExecutable(const std::string& executableName)
     CloseHandle(snapshot);
     return processIds;
 }
+

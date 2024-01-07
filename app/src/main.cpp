@@ -7,19 +7,20 @@
 #define __PROGRAM_NAME__ "GlassSurf"
 #define __PROGRAM_VERSION__ "0"
 
-#include "win/window_utilities.h"
+#include "windows/background_image.h"
 
-int main(int argc, char const *argv[])
-{
-	HWND hwnd = FindWindowHandleByTitleSubstring("Google Chrome");
+#include <opencv2/opencv.hpp>
 
-	WINDOW_INFO window_info = FindWindowInfoByHWND(hwnd);
+int main(int argc, char const* argv[]) {
+      cv::Mat image = cv::imread("D:\\src\\GlassSurf\\app\\src\\background.jpg");
 
-	std::cout << "Width: " << window_info.width << std::endl;
-	std::cout << "Height: " << window_info.height << std::endl;
-	std::cout << "X: " << window_info.position_x << std::endl;
-	std::cout << "Y: " << window_info.position_y << std::endl;
-
+      // Проверка наличия изображения
+      if (image.empty()) {
+        std::cerr << "Error loading image!" << std::endl;
+        return -1;
+      }
 
 	return 0;
 }
+
+// D:\\src\\GlassSurf\\app\\src\\background.jpg

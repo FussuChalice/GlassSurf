@@ -1,9 +1,15 @@
+// windows/window_utilities.cpp
+// -----------------------------------------------------
+// Copyright 2024 The GlassSurf Authors
+// Use of this source code is governed by a MIT-style license that can be
+// found in the LICENSE file.
+
 #include "window_utilities.h"
 
 // Map to associate descriptors with window handles
 std::unordered_map<int, HWND> descriptorToWindowMap;
 
-void ListAllWindowsWithDescriptors() {
+void glass_surf::win::ListAllWindowsWithDescriptors() {
     EnumWindows([](HWND hwnd, LPARAM lParam) -> BOOL {
         int descriptor = static_cast<int>(lParam);
         descriptorToWindowMap[descriptor] = hwnd;
@@ -24,7 +30,7 @@ void ListAllWindowsWithDescriptors() {
         }, 1);
 }
 
-void ListWindowsWithTitleSubstring(const std::string& titleSubstring) {
+void glass_surf::win::ListWindowsWithTitleSubstring(const std::string& titleSubstring) {
     EnumWindows([](HWND hwnd, LPARAM lParam) -> BOOL {
         // Get the length of the window title
         int titleLength = GetWindowTextLength(hwnd) + 1;
@@ -46,7 +52,7 @@ void ListWindowsWithTitleSubstring(const std::string& titleSubstring) {
         }, reinterpret_cast<LPARAM>(titleSubstring.c_str()));
 }
 
-HWND GetWindowHandleByTitle(const std::string& titleSubstring) {
+HWND glass_surf::win::GetWindowHandleByTitle(const std::string& titleSubstring) {
     HWND foundWindow = nullptr;
 
     EnumWindows([](HWND hwnd, LPARAM lParam) -> BOOL {
@@ -87,18 +93,18 @@ void FindWindowHandleByTitleSubstring_(const std::string& titleSubstring) {
         }, reinterpret_cast<LPARAM>(titleSubstring.c_str()));
 }
 
-HWND FindWindowHandleByTitleSubstring(const std::string& titleSubstring) {
+HWND glass_surf::win::FindWindowHandleByTitleSubstring(const std::string& titleSubstring) {
     FindWindowHandleByTitleSubstring_(titleSubstring);
 
     return global_window_handler;
 }
 
 
-void PrintWindowHandle(HWND hwnd) {
+void glass_surf::win::PrintWindowHandle(HWND hwnd) {
     std::cout << "Window Handle: " << hwnd << std::endl;
 }
 
-HWND FindWindowByProcessId(DWORD processId) {
+HWND glass_surf::win::FindWindowByProcessId(DWORD processId) {
     HWND targetWindow = NULL;
 
     EnumWindows([](HWND hwnd, LPARAM lParam) -> BOOL {
@@ -116,8 +122,8 @@ HWND FindWindowByProcessId(DWORD processId) {
     return targetWindow;
 }
 
-WINDOW_INFO FindWindowInfoByHWND(HWND hwnd) {
-    WINDOW_INFO windowInfo = { 0 };
+glass_surf::win::WINDOW_INFO glass_surf::win::FindWindowInfoByHWND(HWND hwnd) {
+    glass_surf::win::WINDOW_INFO windowInfo = { 0 };
 
     DWORD windowProcessId;
     GetWindowThreadProcessId(hwnd, &windowProcessId);

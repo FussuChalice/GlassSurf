@@ -1,6 +1,6 @@
 .vscode
 /app/out
-/app/lib/*
+/app/dependencies/*
 /app/.vs
 
 /extension/src/node_modules
