@@ -11,115 +11,99 @@
 
 #include <iostream>
 #include <cstring>
+#include <sstream>
+#include <iomanip>
 
 #include <opencv2/opencv.hpp>
-#include <opencv2/core.hpp>
-#include <opencv2/imgproc.hpp>
+#include <string>
 
-/**
- * @brief Reads an image from a file and converts it into a vector of pixel values.
- *
- * @param filePath The path to the image file.
- * @return A vector of cv::Vec3b containing pixel values.
- *         An empty vector is returned if there is an error reading the image.
- */
-std::vector<cv::Vec3b> ReadImage(const std::string& filePath);
+namespace glass_surf {
 
-/**
- * @brief Cuts a region from an image defined by specified parameters.
- *
- * @param image The input image represented as a 1D vector of cv::Vec3b.
- * @param image_width The width of the input image.
- * @param cut_width The width of the region to cut.
- * @param cut_height The height of the region to cut.
- * @param start_pos_x The x-coordinate of the starting position for the cut.
- * @param start_pos_y The y-coordinate of the starting position for the cut.
- * @return A vector of cv::Vec3b containing pixel values of the cut region.
- */
-std::vector<cv::Vec3b> CutImage(
-	const std::vector<cv::Vec3b>& image, 
-	int image_width, 
-	int cut_width, 
-	int cut_height, 
-	int start_pos_x, 
-	int start_pos_y);
+	/**
+	 * @brief Reads an image from the specified file path.
+	 *
+	 * @param image_path The file path of the image to be read.
+	 * @return A cv::Mat containing the read image.
+	 */
+	cv::Mat ReadImage(const std::string& image_path);
 
-/**
- * @brief Applies Gaussian blur to an image represented as a vector of pixel values.
- *
- * @param image The input image represented as a 1D vector of cv::Vec3b.
- * @param width The width of the input image.
- * @param height The height of the input image.
- * @param radius The standard deviation of the Gaussian kernel for blurring.
- * @return A vector of cv::Vec3b containing pixel values of the blurred image.
- */
-std::vector<cv::Vec3b> GaussianBlur(
-	const std::vector<cv::Vec3b>& image,
-	int width,
-	int height,
-	double radius);
+	/**
+	 * @brief Displays an image in a resizable OpenCV window for preview.
+	 *
+	 * @param image The input image to be previewed.
+	 * @param window_width The width of the preview window.
+	 * @param window_height The height of the preview window.
+	 */
+	void PreviewImage(cv::Mat image, int window_width, int window_height);
 
-/**
- * @brief Saves an image represented as a vector of pixel values to a PNG file.
- *
- * @param image The input image represented as a 1D vector of cv::Vec3b.
- * @param width The width of the input image.
- * @param height The height of the input image.
- * @param filename The name of the PNG file to save.
- */
-void SaveAsPNG(
-	const std::vector<cv::Vec3b>& image,
-	int width,
-	int height,
-	const std::string& filename);
+	/**
+	 * @brief Applies Gaussian blur to an input image.
+	 *
+	 * @param image The input image.
+	 * @param radius The radius of the Gaussian blur.
+	 * @return A cv::Mat containing the image with the applied Gaussian blur.
+	 */
+	cv::Mat GausianBlur(cv::Mat image, double Radius);
 
-/**
- * @brief Allocates memory in DRAM and copies the image data.
- *
- * This function allocates memory in the Dynamic Random-Access Memory (DRAM) to store
- * an image and copies the pixel data from the provided vector to the allocated memory.
- * The caller is responsible for freeing the allocated memory using FreeDRAMImage
- * when it is no longer needed to avoid memory leaks.
- *
- * @param image The vector containing the pixel data of the image.
- * @param width The width of the image.
- * @param height The height of the image.
- * @return A pointer to the allocated memory containing the image data.
- */
-cv::Vec3b* SaveAsPNGToDRAM(
-	const std::vector<cv::Vec3b>& image, 
-	int width, 
-	int height);
+	/**
+	 * @brief Calculates the luminosity of an input image using the formula: 0.299*R + 0.587*G + 0.114*B.
+	 *
+	 * @param image The input image.
+	 * @return A cv::Mat containing the luminosity information of the image.
+	 */
+	cv::Mat CalculateLuminosity(cv::Mat& image);
 
-/**
- * @brief Allocates memory in DRAM with a specified buffer size and copies the image data.
- *
- * This function allocates memory in the Dynamic Random-Access Memory (DRAM) to store
- * an image with additional buffer space and copies the pixel data from the provided vector
- * to the allocated memory. The caller is responsible for freeing the allocated memory using
- * FreeDRAMImage when it is no longer needed to avoid memory leaks.
- *
- * @param image The vector containing the pixel data of the image.
- * @param width The width of the image.
- * @param height The height of the image.
- * @param buffer The additional buffer size to allocate beyond the required space.
- * @return A pointer to the allocated memory containing the image data with the buffer.
- */
-cv::Vec3b* SaveAsPNGToDRAMWithBuffer(
-	const std::vector<cv::Vec3b>& image, 
-	int width, 
-	int height, 
-	int buffer);
+	/**
+	 * @brief Represents an RGB tint with individual color components.
+	 *
+	 * This struct is used to store the red, green, and blue color components of an RGB tint.
+	 * Each component is an 8-bit unsigned integer (uchar) ranging from 0 to 255.
+	 */
+	struct RGB_Tint {
+		uchar red;
+		uchar green;
+		uchar blue;
+	};
 
-/**
- * @brief Frees the memory allocated in DRAM for the image data.
- *
- * This function frees the memory previously allocated in the Dynamic Random-Access Memory (DRAM)
- * for storing image data. It is important to call this function when the allocated memory is
- * no longer needed to avoid memory leaks.
- *
- * @param dram_image A pointer to the memory allocated for image data in DRAM.
- */
-void FreeDRAMImage(cv::Vec3b* dram_image);
+	/**
+	 * @brief Applies a tint to an input image using the specified RGB tint values.
+	 *
+	 * @param image The input image.
+	 * @param rgb_tint An instance of the RGB_Tint struct containing tint values for red, green, and blue.
+	 * @return A cv::Mat containing the tinted image.
+	 */
+	cv::Mat ApplyTintBlend(cv::Mat& image, RGB_Tint rgb_tint);
+
+	/**
+	 * @brief Converts a hex color string to an RGB_Tint struct.
+	 *
+	 * @param hexColor The input hex color string (e.g., "#RRGGBB").
+	 * @return An instance of the RGB_Tint struct representing the RGB values of the hex color.
+	 */
+	RGB_Tint HexStringToRGBTint(const std::string& hexColor);
+
+	/**
+	 * @brief Crops a specified region from an input image.
+	 *
+	 * @param image The input image to be cropped.
+	 * @param start_pos_x The starting x-coordinate of the cropping region.
+	 * @param start_pos_y The starting y-coordinate of the cropping region.
+	 * @param width The width of the cropping region.
+	 * @param height The height of the cropping region.
+	 * @return A cv::Mat containing the cropped region of the input image.
+	 */
+	cv::Mat CropImage(const cv::Mat& image, 
+		int start_pos_x, int start_pos_y, int width, int height);
+
+	/**
+	 * @brief Resizes an input image to a new resolution.
+	 *
+	 * @param image The input image to be resized.
+	 * @param newWidth The new width of the image.
+	 * @param newHeight The new height of the image.
+	 * @return A cv::Mat containing the resized image.
+	 */
+	cv::Mat CompressImage(const cv::Mat& image, int newWidth, int newHeight);
+ }
 
 #endif // !IMAGE_UTILITIES_H_

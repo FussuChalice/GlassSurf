@@ -8,14 +8,10 @@
 #define __PROGRAM_VERSION__ "0"
 
 #include "windows/background_image.h"
-
 #include "image_utilities.h"
 
+
 int main(int argc, char const* argv[]) {
-
-	std::vector<cv::Vec3b> image =
-      ReadImage("D:\\src\\GlassSurf\\app\\src\\background.jpg");
-
 
 
 	return 0;

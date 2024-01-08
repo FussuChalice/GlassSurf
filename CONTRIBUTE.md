@@ -40,11 +40,13 @@ git fetch upstream
    git submodule init
    git submodule update
    ```
+
 2. Go to `app/tools/vcpkg` and run one of files:
 
    - bootstrap-vcpkg.bat : For Windows
    - bootstrap-vcpkg.sh  : For Linux and macOS
-3. For install dependencies
+
+Install `opencv4` and `winreg` then add to CMake.
 
 ### 5. Build code
 
@@ -55,12 +57,14 @@ For build use [CMake](https://cmake.org/).
    ```bash
    cd /GlassSurg/app
    ```
+
 2. Create out directory:
 
    ```bash
    mkdir ./out
    cd ./out
    ```
+
 3. Run CMake:
 
    Run CMake to generate the build files. If you have a CMakePresets.json file, CMake will use it by default. If not, you might need to specify a CMakeLists.txt file or other configurations.
@@ -135,6 +139,7 @@ This helps maintain a clear and organized commit history.
    ```bash
    git checkout -b feature
    ```
+
 2. Make your changes and ensure that the code follows the established code style.
 3. Write tests for your changes, if applicable.
 4. Ensure that your changes do not break existing functionality.
@@ -143,11 +148,13 @@ This helps maintain a clear and organized commit history.
    ```bash
    git commit -m "Your concise commit message"
    ```
+
 6. Push your branch to your fork:
 
    ```bash
    git push origin feature
    ```
+
 7. Submit a pull request from your branch to the main repository.
 
 ## Code of Conduct

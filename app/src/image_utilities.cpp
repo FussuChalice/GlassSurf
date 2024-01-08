@@ -6,93 +6,122 @@
 
 #include "image_utilities.h"
 
-std::vector<cv::Vec3b> ReadImage(const std::string& file_path) {
-    cv::Mat image = cv::imread(file_path);
+cv::Mat glass_surf::ReadImage(const std::string& image_path) {
+  cv::Mat uploaded_image = cv::imread(image_path);
 
-    if (image.empty()) {
-        std::cerr << "Error: Unable to read the image file " << file_path << std::endl;
-        return std::vector<cv::Vec3b>();
-    }
+  if (uploaded_image.empty()) {
+    std::cerr << "[ERROR]: Uploading " << image_path << " failed!" << std::endl;
+  }
 
-    cv::Mat reshaped_image = image.reshape(1, 1);
-
-    std::vector<cv::Vec3b> pixel_vector(reshaped_image.begin<cv::Vec3b>(), reshaped_image.end<cv::Vec3b>());
-
-    return pixel_vector;
+  return uploaded_image;
 }
 
-std::vector<cv::Vec3b> CutImage(const std::vector<cv::Vec3b>& image, int image_width, int cut_width, int cut_height, int start_pos_x, int start_pos_y) {
-    // Ensure start position is within the image boundaries
-    if (start_pos_x < 0 || start_pos_y < 0 || start_pos_x >= image_width || start_pos_y >= image.size() / image_width) {
-        // Handle invalid start position
-        // You can throw an exception or return an empty vector based on your requirements
-        // For simplicity, let's just return the original image
-        return image;
-    }
+void glass_surf::PreviewImage(cv::Mat image, int window_width, int window_height)
+{
+    cv::namedWindow("OpenCV Preview", cv::WINDOW_NORMAL);
 
-    // Calculate the end position of the cut region
-    int end_pos_x = static_cast<int>(std::min(static_cast<long long>(start_pos_x) + cut_width, static_cast<long long>(image_width)));
-    int end_pos_y = static_cast<int>(std::min(static_cast<long long>(start_pos_y) + cut_height, static_cast<long long>(image.size() / image_width)));
+    cv::resize(image, image, cv::Size(window_width, window_height));
 
-    // Initialize the vector for the cut region
-    std::vector<cv::Vec3b> cut_region;
+    cv::imshow("OpenCV Preview", image);
+    cv::waitKey(0);
 
-    // Iterate over the specified region and copy the pixels to the cut_region vector
-    for (int y = start_pos_y; y < end_pos_y; ++y) {
-        for (int x = start_pos_x; x < end_pos_x; ++x) {
-            cut_region.push_back(image[y * image_width + x]);
+    cv::destroyWindow("OpenCV Preview");
+}
+
+cv::Mat glass_surf::GausianBlur(cv::Mat image, double radius)
+{
+    cv::Mat image_with_effect;
+
+    cv::GaussianBlur(image, image_with_effect, cv::Size(0, 0), radius);
+
+    return image_with_effect;
+}
+
+cv::Mat glass_surf::CalculateLuminosity(cv::Mat& image)
+{
+    cv::Mat image_with_luminosity(image.rows, image.cols, CV_8UC1);
+
+    for (int i = 0; i < image.rows; ++i) {
+        for (int j = 0; j < image.cols; ++j) {
+            cv::Vec3b intensity = image.at<cv::Vec3b>(i, j);
+
+            // Calculate luminosity using the formula: 0.299*R + 0.587*G + 0.114*B
+            uchar luminosity = static_cast<uchar>(0.299 * intensity[2] + 0.587 * intensity[1] + 0.114 * intensity[0]);
+
+            image_with_luminosity.at<uchar>(i, j) = luminosity;
         }
     }
 
-    return cut_region;
+    return image_with_luminosity;
 }
 
-std::vector<cv::Vec3b> GaussianBlur(const std::vector<cv::Vec3b>& image, int width, int height, double radius) {
-    // Convert the 1D vector to a 3-channel (BGR) image
-    cv::Mat input_image(height, width, CV_8UC3);
-    std::memcpy(input_image.data, image.data(), image.size() * sizeof(cv::Vec3b));
+cv::Mat glass_surf::ApplyTintBlend(cv::Mat& image, RGB_Tint rgb_tint)
+{
+    cv::Mat tinted_image(image.rows, image.cols, CV_8UC3);
 
-    // Apply Gaussian blur
-    cv::Mat blurred_image;
-    cv::GaussianBlur(input_image, blurred_image, cv::Size(0, 0), radius);
+    for (int i = 0; i < image.rows; ++i) {
+        for (int j = 0; j < image.cols; ++j) {
+            cv::Vec3b intensity = image.at<cv::Vec3b>(i, j);
 
-    // Convert the blurred image back to a 1D vector
-    std::vector<cv::Vec3b> blurred_vector(blurred_image.data, blurred_image.data + blurred_image.total() * blurred_image.channels());
+            // Apply tint by multiplying each channel with the corresponding tint value
+            intensity[2] = static_cast<uchar>(intensity[2] * (rgb_tint.red / 255.0));
+            intensity[1] = static_cast<uchar>(intensity[1] * (rgb_tint.green / 255.0));
+            intensity[0] = static_cast<uchar>(intensity[0] * (rgb_tint.blue / 255.0));
 
-    return blurred_vector;
+            tinted_image.at<cv::Vec3b>(i, j) = intensity;
+        }
+    }
+
+    return tinted_image;
 }
 
-void SaveAsPNG(const std::vector<cv::Vec3b>& image, int width, int height, const std::string& filename) {
-    // Convert the 1D vector to a 3-channel (BGR) image
-    cv::Mat output_image(height, width, CV_8UC3);
-    std::memcpy(output_image.data, image.data(), image.size() * sizeof(cv::Vec3b));
+glass_surf::RGB_Tint glass_surf::HexStringToRGBTint(const std::string& hexColor)
+{
+    glass_surf::RGB_Tint tint;
 
-    cv::imwrite(filename, output_image);
+    if (hexColor.length() != 7 || hexColor[0] != '#') {
+        std::cerr << "Error: Invalid hex color string." << std::endl;
+        return RGB_Tint{ 0, 0, 0 };
+    }
+
+    std::istringstream stream(hexColor.substr(1));
+    unsigned int colorValue;
+
+    stream >> std::hex >> colorValue;
+    tint.red = static_cast<uchar>(colorValue);
+
+    stream >> std::hex >> colorValue;
+    tint.green = static_cast<uchar>(colorValue);
+
+    stream >> std::hex >> colorValue;
+    tint.blue = static_cast<uchar>(colorValue);
+
+    return tint;
 }
 
-cv::Vec3b* SaveAsPNGToDRAM(const std::vector<cv::Vec3b>& image, int width, int height) {
-    // Allocate memory for the image in DRAM
-    cv::Vec3b* dram_image = new cv::Vec3b[width * height];
-    
-    // Copy the image data to the allocated memory
-    std::memcpy(dram_image, image.data(), image.size() * sizeof(cv::Vec3b));
-    
-    return dram_image;
+cv::Mat glass_surf::CropImage(const cv::Mat& image, int start_pos_x, int start_pos_y, int width, int height) {
+    // Ensure that the cropping region is within the image bounds
+    int max_width = std::min(width, image.cols - start_pos_x);
+    int max_height = std::min(height, image.rows - start_pos_y);
+
+    // Create a Rect object representing the cropping region
+    cv::Rect roi(start_pos_x, start_pos_y, max_width, max_height);
+
+    // Crop the image using the region of interest (ROI)
+    cv::Mat croppedImage = image(roi).clone();
+
+    return croppedImage;
 }
 
-cv::Vec3b* SaveAsPNGToDRAMWithBuffer(const std::vector<cv::Vec3b>& image, int width, int height, int buffer) {
-    // Allocate memory for the image in DRAM with buffer space
-    cv::Vec3b* dram_image = new cv::Vec3b[(width + buffer) * height];
-    
-    // Copy the image data to the allocated memory
-    std::memcpy(dram_image, image.data(), image.size() * sizeof(cv::Vec3b));
+cv::Mat glass_surf::CompressImage(const cv::Mat& image, int newWidth, int newHeight) {
 
-    // You can perform additional operations on dram_image if needed
-    
-    return dram_image;
+    if (image.empty()) {
+        std::cerr << "Error: Input image is empty." << std::endl;
+        return cv::Mat();
+    }
+
+    cv::Mat compressed_image;
+    cv::resize(image, compressed_image, cv::Size(newWidth, newHeight));
+
+    return compressed_image;
 }
-
-void FreeDRAMImage(cv::Vec3b* dram_image) {
-    delete[] dram_image;
-}
-

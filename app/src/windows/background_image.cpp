@@ -14,3 +14,15 @@ std::wstring glass_surf::win::GetDesktopWallPaperPath()
 
 	return wallpaper_path;
 }
+
+void glass_surf::win::GetDesktopResolution(int& horizontal, int& vertical)
+{
+	RECT desktop;
+
+	const HWND hDesktop = GetDesktopWindow();
+
+	GetWindowRect(hDesktop, &desktop);
+
+	horizontal = desktop.right;
+	vertical = desktop.bottom;
+}

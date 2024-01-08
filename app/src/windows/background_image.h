@@ -25,6 +25,18 @@ namespace glass_surf {
 		 *       permissions.
 		 */
 		std::wstring GetDesktopWallPaperPath();
+
+		/**
+		 * @brief Retrieves the resolution of the desktop screen.
+		 *
+		 * @param horizontal Reference to an integer where the horizontal resolution will be stored.
+		 * @param vertical Reference to an integer where the vertical resolution will be stored.
+		 *
+		 * This function utilizes the Windows API to obtain the resolution of the desktop screen.
+		 * It retrieves the dimensions (width and height) of the desktop and stores them in the
+		 * specified references passed as parameters.
+		 */
+		void GetDesktopResolution(int& horizontal, int& vertical);
 	}
 }
 
