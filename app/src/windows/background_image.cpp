@@ -6,8 +6,7 @@
 
 #include "background_image.h"
 
-std::wstring glass_surf::win::GetDesktopWallPaperPath()
-{
+std::wstring glass_surf::win::GetDesktopWallPaperPath() {
 	winreg::RegKey reg_key{HKEY_CURRENT_USER, L"Control Panel\\Desktop"};
 
 	std::wstring wallpaper_path = reg_key.GetStringValue(L"WallPaper");
@@ -15,8 +14,7 @@ std::wstring glass_surf::win::GetDesktopWallPaperPath()
 	return wallpaper_path;
 }
 
-void glass_surf::win::GetDesktopResolution(int& horizontal, int& vertical)
-{
+void glass_surf::win::GetDesktopResolution(int& horizontal, int& vertical) {
 	RECT desktop;
 
 	const HWND hDesktop = GetDesktopWindow();
