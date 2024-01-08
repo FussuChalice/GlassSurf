@@ -9,16 +9,14 @@
 
 #include "windows/background_image.h"
 
-#include <opencv2/opencv.hpp>
+#include "image_utilities.h"
 
 int main(int argc, char const* argv[]) {
-      cv::Mat image = cv::imread("D:\\src\\GlassSurf\\app\\src\\background.jpg");
 
-      // Проверка наличия изображения
-      if (image.empty()) {
-        std::cerr << "Error loading image!" << std::endl;
-        return -1;
-      }
+	std::vector<cv::Vec3b> image =
+      ReadImage("D:\\src\\GlassSurf\\app\\src\\background.jpg");
+
+
 
 	return 0;
 }

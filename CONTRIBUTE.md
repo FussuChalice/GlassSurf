@@ -31,13 +31,22 @@ Now, you can fetch the changes from the main repository:
 git fetch upstream
 ```
 
-### 4. Install Libs for App (C++)
+### 4. Install dependencies
 
-![lib-map](/lib-map.png)
+1. Init submodules
 
-1. [OpenCV](https://opencv.org/releases/)
-2. [Boost](https://www.boost.org/)
-3. [nlohman json](https://github.com/nlohmann/json)
+    ```bash
+    git submodule init
+    git submodule update
+    ```
+
+2. Go to `app/tools/vcpkg` and run one of files:
+
+    - bootstrap-vcpkg.bat : For Windows
+    - bootstrap-vcpkg.sh  : For Linux and macOS
+
+3. For install dependencies
+
 
 ### 5. Build code
 
