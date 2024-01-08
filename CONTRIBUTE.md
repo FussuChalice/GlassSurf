@@ -35,18 +35,16 @@ git fetch upstream
 
 1. Init submodules
 
-    ```bash
-    git submodule init
-    git submodule update
-    ```
+   ```bash
 
+   git submodule init
+   git submodule update
+   ```
 2. Go to `app/tools/vcpkg` and run one of files:
 
-    - bootstrap-vcpkg.bat : For Windows
-    - bootstrap-vcpkg.sh  : For Linux and macOS
-
+   - bootstrap-vcpkg.bat : For Windows
+   - bootstrap-vcpkg.sh  : For Linux and macOS
 3. For install dependencies
-
 
 ### 5. Build code
 
@@ -54,42 +52,39 @@ For build use [CMake](https://cmake.org/).
 
 1. Go to app directory:
 
-    ```bash
-    cd /GlassSurg/app
-    ```
-
+   ```bash
+   cd /GlassSurg/app
+   ```
 2. Create out directory:
 
-    ```bash
-    mkdir ./out
-    cd ./out
-    ```
-
+   ```bash
+   mkdir ./out
+   cd ./out
+   ```
 3. Run CMake:
 
-    Run CMake to generate the build files. If you have a CMakePresets.json file, CMake will use it by default. If not, you might need to specify a CMakeLists.txt file or other configurations.
+   Run CMake to generate the build files. If you have a CMakePresets.json file, CMake will use it by default. If not, you might need to specify a CMakeLists.txt file or other configurations.
 
-    ```bash
-    cmake ..
-    ```
+   ```bash
+   cmake ..
+   ```
 
-    This assumes your **CMakePresets.json** or **CMakeLists.txt** is in the parent directory. Adjust the path accordingly if your CMake configuration file is in a different location.
-
+   This assumes your **CMakePresets.json** or **CMakeLists.txt** is in the parent directory. Adjust the path accordingly if your CMake configuration file is in a different location.
 4. Build the Project:
 
-    Once CMake has generated the build files, you can use the appropriate build tool to build the project. For example, if you are on Linux or macOS, you might use `make`. If you are on Windows, it might be Visual Studio or Ninja.
+   Once CMake has generated the build files, you can use the appropriate build tool to build the project. For example, if you are on Linux or macOS, you might use `make`. If you are on Windows, it might be Visual Studio or Ninja.
 
-    ```bash
-    make
-    ```
+   ```bash
+   make
+   ```
 
-    Or, for Visual Studio on Windows:
+   Or, for Visual Studio on Windows:
 
-    ```bash
-    cmake --build . --config (Release or Debug)
-    ```
+   ```bash
+   cmake --build . --config (Release or Debug)
+   ```
 
-    Adjust the command based on your build tool.
+   Adjust the command based on your build tool.
 
 ## Code Style
 
@@ -140,22 +135,19 @@ This helps maintain a clear and organized commit history.
    ```bash
    git checkout -b feature
    ```
-
 2. Make your changes and ensure that the code follows the established code style.
 3. Write tests for your changes, if applicable.
 4. Ensure that your changes do not break existing functionality.
 5. Commit your changes with a clear and concise commit message:
 
-    ```bash
-    git commit -m "Your concise commit message"
-    ```
-
+   ```bash
+   git commit -m "Your concise commit message"
+   ```
 6. Push your branch to your fork:
 
-    ```bash
-    git push origin feature
-    ```
-
+   ```bash
+   git push origin feature
+   ```
 7. Submit a pull request from your branch to the main repository.
 
 ## Code of Conduct
