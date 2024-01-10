@@ -19,32 +19,16 @@ cd ..
 mkdir deps
 cd ./deps
 
-mkdir debug release
-
-cd ./debug
 mkdir dll lib include
-cd ..
-
-cd ./release
-mkdir dll lib include
-cd ..
 cd ..
 
 :: Copy files
+copy ".\tools\vcpkg\installed\x64-windows\bin\*.dll" ".\deps\dll\"
+copy ".\tools\vcpkg\installed\x64-windows\lib\*.lib" ".\deps\lib\"
+xcopy ".\tools\vcpkg\installed\x64-windows\include\*" ".\deps\include\" /E /I /Y
 
-:: Release
-copy ".\tools\vcpkg\installed\x64-windows\bin\*.dll" ".\deps\release\dll\"
-copy ".\tools\vcpkg\installed\x64-windows\lib\*.lib" ".\deps\release\lib\"
-xcopy ".\tools\vcpkg\installed\x64-windows\include\*" ".\deps\release\include\" /E /I /Y
+python ./tools/rmv.py -b .\deps\include\
 
-python ./tools/rmv.py -b .\deps\release\include\
-
-:: Debug
-copy ".\tools\vcpkg\installed\x64-windows\debug\bin\*.dll" ".\deps\debug\dll\"
-copy ".\tools\vcpkg\installed\x64-windows\debug\lib\*.lib" ".\deps\debug\lib\"
-xcopy ".\tools\vcpkg\installed\x64-windows\include\*" ".\deps\debug\include\" /E /I /Y
-
-python ./tools/rmv.py -b .\deps\debug\include\
 
 ::Generate copyright
 python ./tools/cprgen.py -s .\tools\vcpkg\installed\x64-windows\share\ -o .\deps\COPYRIGHT.txt
