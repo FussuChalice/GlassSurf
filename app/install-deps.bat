@@ -42,6 +42,7 @@ python ./tools/rmv.py -b .\deps\release\include\
 :: Debug
 copy ".\tools\vcpkg\installed\x64-windows\debug\bin\*.dll" ".\deps\debug\dll\"
 copy ".\tools\vcpkg\installed\x64-windows\debug\lib\*.lib" ".\deps\debug\lib\"
+xcopy ".\tools\vcpkg\installed\x64-windows\include\*" ".\deps\debug\include\" /E /I /Y
 
 python ./tools/rmv.py -b .\deps\debug\include\
 

@@ -9,22 +9,13 @@ endif()
 
 project ("GlassSurf")
 
-# -| VCPKG Packages |-----------------------------------
-
-set (VCPKG_INSTALLED_DIR "tools/vcpkg/installed")
-
-set(CMAKE_PREFIX_PATH ${VCPKG_INSTALLED_DIR}/x64-windows)
-
-set(OpenCV_DIR "${VCPKG_INSTALLED_DIR}/x64-windows/share/opencv4")
-find_package(OpenCV REQUIRED)
-
-set(WINREG_INCLUDE_PATH "${CMAKE_PREFIX_PATH}/include/winreg")
-set(GTK_INCLUDE_PATH "${CMAKE_PREFIX_PATH}/include/gtk-4.0")
-
-# -| END VCPKG Packages |-------------------------------
-
-include_directories(${WINREG_INCLUDE_PATH} ${GTK_INCLUDE_PATH})
-link_directories("${CMAKE_PREFIX_PATH}/lib")
+function(CopyFiles SRC_DIR DST_DIR PATTERN)
+    file(GLOB files "${SRC_DIR}/${PATTERN}")
+    foreach(file ${files})
+        get_filename_component(file_name ${file} NAME)
+        configure_file(${file} ${DST_DIR}/${file_name} COPYONLY)
+    endforeach()
+endfunction()
 
 set(CXX_FILES  
     "src/windows/process_detector.cpp" 
@@ -34,34 +25,23 @@ set(HEADER_FILES
     "src/windows/process_detector.h" "src/windows/window_utilities.h" "src/windows/background_image.h" "src/image_utilities.h")
 
 # Add source to this project's executable.
-add_executable (GlassSurf ${CXX_FILES} ${HEADER_FILES} )
+add_executable (GlassSurf ${CXX_FILES} ${HEADER_FILES})
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(DEPS_PATH "${CMAKE_SOURCE_DIR}/deps/debug/")
+endif()
+    
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(DEPS_PATH "${CMAKE_SOURCE_DIR}/deps/release/")
+endif()
+
+target_link_libraries(GlassSurf
+    "${DEPS_PATH}lib/opencv_world480.lib"
+)
+
+include_directories("${DEPS_PATH}include/")
+
+CopyFiles("${DEPS_PATH}/dll/" "${CMAKE_BINARY_DIR}" "*.dll")
 
 set_property(TARGET GlassSurf PROPERTY CXX_STANDARD 17)
 set_property(TARGET GlassSurf PROPERTY CXX_STANDARD_REQUIRED ON)
-
-# Include directories
-target_include_directories(GlassSurf PRIVATE ${OpenCV_INCLUDE_DIRS})
-
-# Link libraries
-target_link_libraries(GlassSurf PRIVATE ${OpenCV_LIBS})
-# TODO: Add tests and install targets if needed.
-
-# -| Copy DLLs |----------------------------------------
-
-set(DLL_FILE_PATTERN "*.dll")
-
-
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set(DLL_DIR "${CMAKE_PREFIX_PATH}/debug/bin")
-else()
-    set(DLL_DIR "${CMAKE_PREFIX_PATH}/bin")
-endif()
-
-file(GLOB DLLS_TO_COPY "${DLL_DIR}/${DLL_FILE_PATTERN}")
-
-foreach(FILE ${DLLS_TO_COPY})
-    file(COPY "${FILE}" DESTINATION "${CMAKE_BINARY_DIR}")
-endforeach()
-
-
-# -| END Copy DLLs |------------------------------------
