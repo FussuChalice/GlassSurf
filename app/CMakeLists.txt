@@ -19,12 +19,12 @@ set(OpenCV_DIR "${VCPKG_INSTALLED_DIR}/x64-windows/share/opencv4")
 find_package(OpenCV REQUIRED)
 
 set(WINREG_INCLUDE_PATH "${CMAKE_PREFIX_PATH}/include/winreg")
+set(GTK_INCLUDE_PATH "${CMAKE_PREFIX_PATH}/include/gtk-4.0")
 
 # -| END VCPKG Packages |-------------------------------
 
-include_directories(${WINREG_INCLUDE_PATH})
-
-
+include_directories(${WINREG_INCLUDE_PATH} ${GTK_INCLUDE_PATH})
+link_directories("${CMAKE_PREFIX_PATH}/lib")
 
 set(CXX_FILES  
     "src/windows/process_detector.cpp" 

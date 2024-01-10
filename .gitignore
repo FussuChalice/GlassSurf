@@ -1,6 +1,7 @@
 .vscode
 /app/out
-/app/dependencies/*
+/app/tools/vcpkg
 /app/.vs
+/app/deps/
 
 /extension/src/node_modules

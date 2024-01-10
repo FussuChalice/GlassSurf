@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "GlassSurf",
+    "description": "Enjoy a modern aesthetic and easy integration across major web browsers.",
+    "version": "1.0",
+    "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "64": "icons/64.png",
+    "128": "icons/128.png"
+    },
+    "action": {
+        "default_popup": "popup/popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["scripts/content.js"]
+        }
+    ]
+}
