@@ -1,0 +1,1 @@
+conan install . --output-folder=build -s compiler.cppstd=17

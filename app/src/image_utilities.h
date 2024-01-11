@@ -13,9 +13,9 @@
 #include <cstring>
 #include <sstream>
 #include <iomanip>
+#include <string>
 
 #include <opencv2/opencv.hpp>
-#include <string>
 
 namespace glass_surf {
 

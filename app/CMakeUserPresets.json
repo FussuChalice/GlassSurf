@@ -1,0 +1,9 @@
+{
+    "version": 4,
+    "vendor": {
+        "conan": {}
+    },
+    "include": [
+        "D:\\src\\GlassSurf\\app\\build\\CMakePresets.json"
+    ]
+}

@@ -7,7 +7,7 @@
 #ifndef BACKGROUND_IMAGE_H_
 #define BACKGROUND_IMAGE_H_
 
-#include <winreg/WinReg.hpp>
+#include <WinReg/WinReg.hpp>
 #include <iostream>
 
 namespace glass_surf {
