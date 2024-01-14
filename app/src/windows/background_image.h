@@ -37,7 +37,8 @@ namespace glass_surf {
 		 * specified references passed as parameters.
 		 */
 		void GetDesktopResolution(int& horizontal, int& vertical);
-	}
-}
+
+	} // namespace win
+} // namespace glass_surf
 
 #endif // !BACKGROUND_IMAGE_H_

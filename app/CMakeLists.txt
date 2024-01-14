@@ -3,17 +3,19 @@ cmake_minimum_required(VERSION 3.15)
 project(GlassSurf CXX)
 
 set (CXX_FILES "src/main.cpp" "src/image_utilities.cpp" 
-"src/windows/background_image.cpp" "src/windows/process_detector.cpp" "src/windows/window_utilities.cpp")
+"src/windows/background_image.cpp" "src/windows/process_detector.cpp" 
+"src/windows/window_utilities.cpp" "src/settings/settings_manager.cpp" "src/arguments.cpp")
 
 set (HEADER_FILES "src/image_utilities.h" 
-"src/windows/background_image.h" "src/windows/process_detector.h" "src/windows/window_utilities.h")
+"src/windows/background_image.h" "src/windows/process_detector.h" "src/windows/window_utilities.h" "src/settings/settings_manager.h" "src/arguments.h")
 
 add_executable(GlassSurf ${CXX_FILES} ${HEADER_FILES})
 
 find_package(argparse)
 find_package(OpenCV)
 find_package(fltk)
-target_link_libraries(GlassSurf argparse::argparse opencv::opencv fltk::fltk)
+find_package(nlohmann_json)
+target_link_libraries(GlassSurf argparse::argparse opencv::opencv fltk::fltk nlohmann_json::nlohmann_json)
 
 include_directories("./deps/include/")
 

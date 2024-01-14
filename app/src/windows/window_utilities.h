@@ -101,6 +101,17 @@ namespace glass_surf {
 		};
 
 		/**
+		 * @brief Prints the contents of a WINDOW_INFO structure.
+		 *
+		 * This function prints the values of a WINDOW_INFO structure, including process ID,
+		 * width, height, position X, and position Y, to the standard output (console).
+		 *
+		 * @param windowInfo The WINDOW_INFO structure to be printed.
+		 *
+		 */
+		void PrintWindowInfo(const WINDOW_INFO& windowInfo);
+
+		/**
 		 * @brief Retrieves information about a window using its handle.
 		 *
 		 * @param hwnd The handle of the window.
@@ -110,7 +121,62 @@ namespace glass_surf {
 		 * width, height, and position, and returns this information in a WINDOW_INFO structure.
 		 */
 		WINDOW_INFO FindWindowInfoByHWND(HWND hwnd);
-	}
-}
+
+		/**
+		 * @brief Compares two WINDOW_INFO structures for equality.
+		 *
+		 * This function compares the specified WINDOW_INFO structures based on their
+		 * processId, width, height, position_x, and position_y members. If all members
+		 * are equal, the function returns true; otherwise, it returns false.
+		 *
+		 * @param first_window_info The first WINDOW_INFO structure to compare.
+		 * @param second_window_info The second WINDOW_INFO structure to compare.
+		 * 
+		 * @return True if the WINDOW_INFO structures are equal; false otherwise.
+		 *
+		 * @note The comparison is based on equality of each member of the structures.
+		 */
+		bool CompareWindowInfo(WINDOW_INFO& first_window_info,WINDOW_INFO& second_window_info);
+
+		/**
+		 * @brief Hides the console window.
+		 * 
+		 * This function hides the console window associated with the current
+		 * process. It uses Windows API functions to achieve this.
+		 * 
+		 * @note This function has no effect if the application does not have a console window.
+		 * 
+		 * @see ShowConsole(), IsConsoleVisible()
+		 */
+		void HideConsole();
+
+		/**
+		 * @brief Shows the console window if hidden.
+		 * 
+		 * This function shows the console window associated with the current
+		 * process if it is currently hidden. It uses Windows API functions to achieve this.
+		 * 
+		 * @note This function has no effect if the application does not have a console window.
+		 * 
+		 * @see HideConsole(), IsConsoleVisible()
+		 */
+		void ShowConsole();
+
+		/**
+		 * @brief Checks if the console window is currently visible.
+		 * 
+		 * This function checks whether the console window associated with the current
+		 * process is currently visible.
+		 * 
+		 * @note This function returns false if the application does not have a console window.
+		 * 
+		 * @return True if the console window is visible, false otherwise.
+		 * 
+		 * @see HideConsole(), ShowConsole()
+		 */
+		bool IsConsoleVisible();
+
+	} // namespace win
+} // namespace glass_surf
 
 #endif // !WINDOW_UTILITIES_H_

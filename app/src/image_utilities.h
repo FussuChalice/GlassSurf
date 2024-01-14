@@ -104,6 +104,7 @@ namespace glass_surf {
 	 * @return A cv::Mat containing the resized image.
 	 */
 	cv::Mat CompressImage(const cv::Mat& image, int newWidth, int newHeight);
- }
+	
+} // namespace glass_surf
 
 #endif // !IMAGE_UTILITIES_H_

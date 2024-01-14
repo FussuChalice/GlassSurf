@@ -122,8 +122,16 @@ HWND glass_surf::win::FindWindowByProcessId(DWORD processId) {
     return targetWindow;
 }
 
+void glass_surf::win::PrintWindowInfo(const WINDOW_INFO &windowInfo) {
+    std::cout << "Process ID: " << windowInfo.processId << std::endl;
+    std::cout << "Width: " << windowInfo.width << std::endl;
+    std::cout << "Height: " << windowInfo.height << std::endl;
+    std::cout << "Position X: " << windowInfo.position_x << std::endl;
+    std::cout << "Position Y: " << windowInfo.position_y << std::endl;
+}
+
 glass_surf::win::WINDOW_INFO glass_surf::win::FindWindowInfoByHWND(HWND hwnd) {
-    glass_surf::win::WINDOW_INFO windowInfo = { 0 };
+    glass_surf::win::WINDOW_INFO windowInfo = { 0, 0, 0, 0, 0 };
 
     DWORD windowProcessId;
     GetWindowThreadProcessId(hwnd, &windowProcessId);
@@ -140,4 +148,26 @@ glass_surf::win::WINDOW_INFO glass_surf::win::FindWindowInfoByHWND(HWND hwnd) {
     }
 
     return windowInfo;
+}
+
+bool glass_surf::win::CompareWindowInfo(WINDOW_INFO &first_window_info, WINDOW_INFO &second_window_info) {
+    return (
+        first_window_info.processId == second_window_info.processId &&
+        first_window_info.width == second_window_info.width &&
+        first_window_info.height == second_window_info.height &&
+        first_window_info.position_x == second_window_info.position_x &&
+        first_window_info.position_y == second_window_info.position_y
+    );
+}
+
+void glass_surf::win::HideConsole() {
+    ::ShowWindow(::GetConsoleWindow(), SW_HIDE);
+}
+
+void glass_surf::win::ShowConsole() {
+    ::ShowWindow(::GetConsoleWindow(), SW_SHOW);
+}
+
+bool glass_surf::win::IsConsoleVisible() {
+    return ::IsWindowVisible(::GetConsoleWindow()) != FALSE;
 }

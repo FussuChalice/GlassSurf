@@ -51,7 +51,9 @@ namespace glass_surf {
 		 *         If no processes are found or an error occurs, an empty vector is returned.
 		 */
 		std::vector<DWORD> FindProcessIdsByExecutable(const std::string& executableName);
-	}
-}
+
+	} // namespace win
+
+} // namespace glass_surf
 
 #endif // !PROCESS_DETECTOR_H_
