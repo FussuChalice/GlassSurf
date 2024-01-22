@@ -4,14 +4,14 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
+#include <beauty/beauty.hpp>
+
 #ifdef _WIN32
 #include "windows/window_utilities.h"
 #include "windows/background_image.h"
 
 #include <conio.h>
 #endif
-
-#include <beauty/beauty.hpp>
 
 #include "settings/settings_manager.h"
 #include "image_utilities.h"
@@ -103,6 +103,7 @@ int main(int argc, char const *argv[]) {
     std::string response_img;
 
     http_server.add_route("/bg/").get([browser_window, &dbi_with_blur, &window_info, &response_img](const auto& req, auto& res) {
+
         glass_surf::win::WINDOW_INFO tmp_browser_window_info = glass_surf::win::FindWindowInfoByHWND(browser_window);
 
         if (window_info.height != tmp_browser_window_info.height 
@@ -117,13 +118,10 @@ int main(int argc, char const *argv[]) {
             std::vector<uchar> img_buffer;
             cv::imencode(".png", result_image, img_buffer);
 
-            std::string base64_image = websocketpp::base64_encode(img_buffer.data(), img_buffer.size());
-
-            std::string response_data = "data:image/png;base64," + base64_image;
-
-            response_img = response_data;
+            response_img = std::string(img_buffer.begin(), img_buffer.end());
         }
-
+        
+        res.set_header(boost::beast::http::field::content_type, "image/png");
         res.body() = response_img;
 
     });
