@@ -31,64 +31,9 @@ Now, you can fetch the changes from the main repository:
 git fetch upstream
 ```
 
-### 4. Install dependencies
+### 4. Build and Install Dependencies
 
-1. Init submodules
-
-   ```bash
-
-   git submodule init
-   git submodule update
-   ```
-
-2. Go to `app/tools/vcpkg` and run one of files:
-
-   - bootstrap-vcpkg.bat : For Windows
-   - bootstrap-vcpkg.sh  : For Linux and macOS
-
-Install `opencv4` and `winreg` then add to CMake.
-
-### 5. Build code
-
-For build use [CMake](https://cmake.org/).
-
-1. Go to app directory:
-
-   ```bash
-   cd /GlassSurg/app
-   ```
-
-2. Create out directory:
-
-   ```bash
-   mkdir ./out
-   cd ./out
-   ```
-
-3. Run CMake:
-
-   Run CMake to generate the build files. If you have a CMakePresets.json file, CMake will use it by default. If not, you might need to specify a CMakeLists.txt file or other configurations.
-
-   ```bash
-   cmake ..
-   ```
-
-   This assumes your **CMakePresets.json** or **CMakeLists.txt** is in the parent directory. Adjust the path accordingly if your CMake configuration file is in a different location.
-4. Build the Project:
-
-   Once CMake has generated the build files, you can use the appropriate build tool to build the project. For example, if you are on Linux or macOS, you might use `make`. If you are on Windows, it might be Visual Studio or Ninja.
-
-   ```bash
-   make
-   ```
-
-   Or, for Visual Studio on Windows:
-
-   ```bash
-   cmake --build . --config (Release or Debug)
-   ```
-
-   Adjust the command based on your build tool.
+Use [Conan](https://conan.io/) and [CMake](https://cmake.org/).
 
 ## Code Style
 
