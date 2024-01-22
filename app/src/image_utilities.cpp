@@ -100,9 +100,25 @@ glass_surf::RGB_Tint glass_surf::HexStringToRGBTint(const std::string& hexColor)
 }
 
 cv::Mat glass_surf::CropImage(const cv::Mat& image, int start_pos_x, int start_pos_y, int width, int height) {
+    // Check if the input image is empty
+    if (image.empty()) {
+        // Handle the case of an empty input image (optional)
+        // For example, you can return an empty matrix or throw an exception.
+        // Here, I'm returning an empty matrix.
+        return cv::Mat();
+    }
+
     // Ensure that the cropping region is within the image bounds
     int max_width = std::min(width, image.cols - start_pos_x);
     int max_height = std::min(height, image.rows - start_pos_y);
+
+    // Check if the cropping region is valid
+    if (max_width <= 0 || max_height <= 0) {
+        // Handle invalid cropping parameters (optional)
+        // For example, you can return an empty matrix or throw an exception.
+        // Here, I'm returning an empty matrix.
+        return cv::Mat();
+    }
 
     // Create a Rect object representing the cropping region
     cv::Rect roi(start_pos_x, start_pos_y, max_width, max_height);
@@ -114,8 +130,11 @@ cv::Mat glass_surf::CropImage(const cv::Mat& image, int start_pos_x, int start_p
 }
 
 cv::Mat glass_surf::CompressImage(const cv::Mat& image, int newWidth, int newHeight) {
-
+    // Check if the input image is empty
     if (image.empty()) {
+        // Handle the case of an empty input image (optional)
+        // For example, you can return an empty matrix or throw an exception.
+        // Here, I'm returning an empty matrix.
         std::cerr << "Error: Input image is empty." << std::endl;
         return cv::Mat();
     }

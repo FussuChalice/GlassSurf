@@ -123,22 +123,6 @@ namespace glass_surf {
 		WINDOW_INFO FindWindowInfoByHWND(HWND hwnd);
 
 		/**
-		 * @brief Compares two WINDOW_INFO structures for equality.
-		 *
-		 * This function compares the specified WINDOW_INFO structures based on their
-		 * processId, width, height, position_x, and position_y members. If all members
-		 * are equal, the function returns true; otherwise, it returns false.
-		 *
-		 * @param first_window_info The first WINDOW_INFO structure to compare.
-		 * @param second_window_info The second WINDOW_INFO structure to compare.
-		 * 
-		 * @return True if the WINDOW_INFO structures are equal; false otherwise.
-		 *
-		 * @note The comparison is based on equality of each member of the structures.
-		 */
-		bool CompareWindowInfo(WINDOW_INFO& first_window_info,WINDOW_INFO& second_window_info);
-
-		/**
 		 * @brief Hides the console window.
 		 * 
 		 * This function hides the console window associated with the current

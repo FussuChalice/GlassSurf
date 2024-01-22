@@ -81,7 +81,7 @@ int main(int argc, char const *argv[]) {
     cv::Mat dbi = glass_surf::ReadImage(desktop_background_image_path_string);
     cv::Mat dbi_with_compress = glass_surf::CompressImage(dbi, screen_width, screen_height);
 
-    std::cout << "---";
+    std::cout << "---" << std::endl;
     
     cv::Mat dbi_with_tint_blend = dbi_with_compress;
     if (settings.blendColor != "#000000") {
@@ -93,20 +93,21 @@ int main(int argc, char const *argv[]) {
 
     // Running ...
     glass_surf::win::WINDOW_INFO window_info = {0, 0, 0, 0, 0};
-    cv::Mat result_image;
+    cv::Mat result_image = dbi_with_blur;
+
     while (true) {
         glass_surf::win::WINDOW_INFO tmp_browser_window_info = glass_surf::win::FindWindowInfoByHWND(browser_window);
         
-        if (!glass_surf::win::CompareWindowInfo(window_info, tmp_browser_window_info)) {
+        if (window_info.height != tmp_browser_window_info.height 
+        || window_info.width != tmp_browser_window_info.width 
+        || window_info.position_x != tmp_browser_window_info.position_x
+        || window_info.position_y != tmp_browser_window_info.position_y) {
             window_info = tmp_browser_window_info;
 
-            std::cout << "Changed!" << std::endl;
+            result_image = glass_surf::CropImage(dbi_with_blur, window_info.position_x, window_info.position_y, window_info.width, window_info.height);
         }
-
-        std::cout << "\x1B[2J\x1B[H";
-
-
     }
+
     
 
     #endif // _WIN32
