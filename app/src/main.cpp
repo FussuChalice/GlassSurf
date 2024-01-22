@@ -17,10 +17,9 @@
 #include "image_utilities.h"
 #include "arguments.h"
 
-#include "base64.hpp"
-
 #define __PROGRAM_NAME__ "GlassSurf"
 #define __PROGRAM_VERSION__ "1.0.0 (Beta)"
+#define __PROGRAM_PORT__ 3040
 
 const std::string default_config_file_name = "config.json";
 
@@ -104,6 +103,13 @@ int main(int argc, char const *argv[]) {
 
     http_server.add_route("/bg/").get([browser_window, &dbi_with_blur, &window_info, &response_img](const auto& req, auto& res) {
 
+        // Set CORS headers
+        res.set_header(boost::beast::http::field::access_control_allow_origin, "*");
+        res.set_header(boost::beast::http::field::access_control_allow_methods, "GET, OPTIONS");
+        res.set_header(boost::beast::http::field::access_control_allow_headers, "Content-Type");
+        res.set_header(boost::beast::http::field::access_control_max_age, "3600");
+
+
         glass_surf::win::WINDOW_INFO tmp_browser_window_info = glass_surf::win::FindWindowInfoByHWND(browser_window);
 
         if (window_info.height != tmp_browser_window_info.height 
@@ -126,7 +132,7 @@ int main(int argc, char const *argv[]) {
 
     });
 
-    http_server.listen(settings.hostPort);
+    http_server.listen(__PROGRAM_PORT__);
     http_server.wait();
 
     #endif // _WIN32

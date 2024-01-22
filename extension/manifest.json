@@ -9,6 +9,12 @@
     "64": "icons/64.png",
     "128": "icons/128.png"
     },
+    "permissions": [
+        "storage",
+        "activeTab",
+        "webNavigation",
+        "<all_urls>"
+    ],
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
