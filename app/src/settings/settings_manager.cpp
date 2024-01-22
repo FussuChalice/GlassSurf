@@ -15,6 +15,7 @@ void glass_surf::settings::SaveSettingsFile(Settings settings, std::string filen
     file_data["blend_color"] = settings.blendColor;
     file_data["blur_radius"] = settings.blurRadius;
     file_data["browser"] = settings.browser;
+    file_data["host_port"] = settings.hostPort;
 
     std::ofstream file(filename);
     file << file_data.dump() << std::endl;
@@ -39,14 +40,17 @@ glass_surf::settings::Settings glass_surf::settings::ReadSettingsFile(std::strin
         if (json_data.contains("theme")) {
             tmp_settings.theme = json_data["theme"];
         }
-        if (json_data.contains("blendColor")) {
-            tmp_settings.blendColor = json_data["blendColor"];
+        if (json_data.contains("blend_color")) {
+            tmp_settings.blendColor = json_data["blend_color"];
         }
-        if (json_data.contains("blurRadius")) {
-            tmp_settings.blurRadius = json_data["blurRadius"];
+        if (json_data.contains("blur_radius")) {
+            tmp_settings.blurRadius = json_data["blur_radius"];
         }
         if (json_data.contains("browser")) {
             tmp_settings.browser = json_data["browser"];
+        }
+        if (json_data.contains("host_port")) {
+            tmp_settings.hostPort = json_data["host_port"];
         }
     } catch (const nlohmann::json::exception& e) {
         // Handle JSON parsing error

@@ -29,6 +29,7 @@ namespace glass_surf {
             Themes theme = Themes::ACRYLIC;
             std::string blendColor = "#000000";
             double blurRadius = 25.0;
+            int hostPort = 3040;
         };
 
         /**

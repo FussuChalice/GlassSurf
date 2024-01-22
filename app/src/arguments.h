@@ -9,12 +9,10 @@
 
 #include <argparse/argparse.hpp>
 
-namespace glass_surf {
-    namespace arguments {
+namespace glass_surf::arguments {
         void RegistryArguments(argparse::ArgumentParser& argv_parser);
-    } // namespace arguments
 
-} // namespace glass_surf
+} // namespace glass_surf::arguments
 
 
 #endif // !ARGUMENTS_H_

@@ -10,8 +10,7 @@
 #include <WinReg/WinReg.hpp>
 #include <iostream>
 
-namespace glass_surf {
-	namespace win {
+namespace glass_surf::win {
 		/**
 		 * \brief Retrieves the path of the current desktop wallpaper.
 		 *
@@ -38,7 +37,6 @@ namespace glass_surf {
 		 */
 		void GetDesktopResolution(int& horizontal, int& vertical);
 
-	} // namespace win
-} // namespace glass_surf
+} // namespace glass_surf::win
 
 #endif // !BACKGROUND_IMAGE_H_

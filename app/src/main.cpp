@@ -11,9 +11,13 @@
 #include <conio.h>
 #endif
 
+#include <beauty/beauty.hpp>
+
 #include "settings/settings_manager.h"
 #include "image_utilities.h"
 #include "arguments.h"
+
+#include "base64.hpp"
 
 #define __PROGRAM_NAME__ "GlassSurf"
 #define __PROGRAM_VERSION__ "1.0.0 (Beta)"
@@ -91,24 +95,41 @@ int main(int argc, char const *argv[]) {
 
     cv::Mat dbi_with_blur = glass_surf::GausianBlur(dbi_with_tint_blend, settings.blurRadius);
 
+    // Start API Server
+    beauty::server http_server;
+
     // Running ...
     glass_surf::win::WINDOW_INFO window_info = {0, 0, 0, 0, 0};
-    cv::Mat result_image = dbi_with_blur;
+    std::string response_img;
 
-    while (true) {
+    http_server.add_route("/bg/").get([browser_window, &dbi_with_blur, &window_info, &response_img](const auto& req, auto& res) {
         glass_surf::win::WINDOW_INFO tmp_browser_window_info = glass_surf::win::FindWindowInfoByHWND(browser_window);
-        
+
         if (window_info.height != tmp_browser_window_info.height 
         || window_info.width != tmp_browser_window_info.width 
-        || window_info.position_x != tmp_browser_window_info.position_x
+        || window_info.position_x != tmp_browser_window_info.position_x 
         || window_info.position_y != tmp_browser_window_info.position_y) {
             window_info = tmp_browser_window_info;
 
-            result_image = glass_surf::CropImage(dbi_with_blur, window_info.position_x, window_info.position_y, window_info.width, window_info.height);
-        }
-    }
+            cv::Mat result_image = glass_surf::CropImage(dbi_with_blur, tmp_browser_window_info.position_x, 
+            tmp_browser_window_info.position_y, tmp_browser_window_info.width, tmp_browser_window_info.height);
 
-    
+            std::vector<uchar> img_buffer;
+            cv::imencode(".png", result_image, img_buffer);
+
+            std::string base64_image = websocketpp::base64_encode(img_buffer.data(), img_buffer.size());
+
+            std::string response_data = "data:image/png;base64," + base64_image;
+
+            response_img = response_data;
+        }
+
+        res.body() = response_img;
+
+    });
+
+    http_server.listen(settings.hostPort);
+    http_server.wait();
 
     #endif // _WIN32
 

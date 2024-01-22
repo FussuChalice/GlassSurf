@@ -16,8 +16,7 @@
 #include <string>
 #include <vector>
 
-namespace glass_surf {
-	namespace win {
+namespace glass_surf::win {
 
 		/**
 		 * @brief Lists all running processes and prints their process ID and executable filename.
@@ -52,8 +51,6 @@ namespace glass_surf {
 		 */
 		std::vector<DWORD> FindProcessIdsByExecutable(const std::string& executableName);
 
-	} // namespace win
-
-} // namespace glass_surf
+} // namespace glass_surf::win
 
 #endif // !PROCESS_DETECTOR_H_

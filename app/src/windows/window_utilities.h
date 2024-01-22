@@ -11,8 +11,7 @@
 #include <unordered_map>
 #include <windows.h>
 
-namespace glass_surf {
-	namespace win {
+namespace glass_surf::win {
 		/**
 		 * @brief Lists all top-level windows, associating each window handle with a unique descriptor.
 		 *
@@ -160,7 +159,6 @@ namespace glass_surf {
 		 */
 		bool IsConsoleVisible();
 
-	} // namespace win
-} // namespace glass_surf
+} // namespace glass_surf::win
 
 #endif // !WINDOW_UTILITIES_H_
