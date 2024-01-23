@@ -20,6 +20,8 @@ target_link_libraries(GlassSurf argparse::argparse opencv::opencv fltk::fltk nlo
 
 include_directories("./deps/include/")
 
+target_sources(GlassSurf PRIVATE "./resources/VersionInfo.rc")
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
