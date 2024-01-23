@@ -34,6 +34,7 @@ git fetch upstream
 ### 4. Build and Install Dependencies
 
 Use [Conan](https://conan.io/) and [CMake](https://cmake.org/).
+To `deps/include/WinReg` copy WinReg.hpp and LICENSE
 
 ## Code Style
 
