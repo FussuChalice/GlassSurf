@@ -15,6 +15,7 @@ fetch(`http://localhost:${DEFAULT_PORT}/bg/`, {
     .then(data => {
         console.log("GlassSurf server is up!!");
 
+        let imageUrl;
         function updateBackground() {
             var xhr = new XMLHttpRequest();
             xhr.responseType = 'arraybuffer';
@@ -22,7 +23,7 @@ fetch(`http://localhost:${DEFAULT_PORT}/bg/`, {
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     var imageBlob = new Blob([xhr.response], { type: 'image/png' });
-                    var imageUrl = URL.createObjectURL(imageBlob);
+                    imageUrl = URL.createObjectURL(imageBlob);
                     var img = new Image();
                     img.onload = function() {
                         body.style.backgroundImage = 'url(' + imageUrl + ')';
@@ -34,7 +35,9 @@ fetch(`http://localhost:${DEFAULT_PORT}/bg/`, {
             xhr.send();
         }
 
-        interval = setInterval(updateBackground, 10);
+        URL.revokeObjectURL(imageUrl);
+
+        interval = setInterval(updateBackground, 100);
 
     })
     .catch((error) => {
@@ -45,7 +48,7 @@ fetch(`http://localhost:${DEFAULT_PORT}/bg/`, {
 
 // Custom themes of transparent for websites
 
-if (window.location.href == "https://www.google.com/") {
+if (window.location.href.includes("google.com")) {
   elems = [
     document.querySelector("#gb"),
     document.querySelector("body > div.L3eUgb > div.o3j99.ikrT4e.om7nvf > form > div:nth-child(1) > div.A8SBwf > div.RNNXgb"),
