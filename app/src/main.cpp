@@ -132,6 +132,30 @@ int main(int argc, char const *argv[]) {
 
     });
 
+    http_server.add_route("/state/").get([browser_window, &window_info](const auto& req, auto& res) {
+
+        // Set CORS headers
+        res.set_header(boost::beast::http::field::access_control_allow_origin, "*");
+        res.set_header(boost::beast::http::field::access_control_allow_methods, "GET, OPTIONS");
+        res.set_header(boost::beast::http::field::access_control_allow_headers, "Content-Type");
+        res.set_header(boost::beast::http::field::access_control_max_age, "3600");
+        
+        glass_surf::win::WINDOW_INFO tmp_browser_window_info = glass_surf::win::FindWindowInfoByHWND(browser_window);
+
+        // 0 = NOT CHANGED
+        // 1 = CHANGED
+        if (window_info.height != tmp_browser_window_info.height 
+        || window_info.width != tmp_browser_window_info.width 
+        || window_info.position_x != tmp_browser_window_info.position_x 
+        || window_info.position_y != tmp_browser_window_info.position_y) {
+            res.body() = "1";
+        }
+
+        else {
+            res.body() = "0";
+        }
+    });
+
     http_server.listen(__PROGRAM_PORT__);
     http_server.wait();
 
