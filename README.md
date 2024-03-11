@@ -2,6 +2,8 @@
 
 ![cover](./cover.png)
 
+# !NOW APP WORKING ONLY FOR WINDOWS PC!
+
 ## Overview
 
 GlassSurf is a project aimed at enhancing the visual experience of the Chrome, Firefox and Edge browser. Currently in development, this project adds a transparent effect to the main browser homepage  and ``<body>`` tags, giving it a vibrant and modern appearance.
